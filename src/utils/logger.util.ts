@@ -65,17 +65,3 @@ export const LoginLogger: WinstonLogger = createLogger({
   ],
   exitOnError: false,
 });
-
-// --- Cómo usar ---
-
-// Para logs generales de la aplicación:
-// AppLogger.info("La aplicación ha iniciado correctamente.");
-// AppLogger.warn("Advertencia: Recurso no encontrado.");
-// AppLogger.error("¡Error crítico! La base de datos no responde.", { dbStatus: "down" });
-
-// Para logs de eventos de login:
-// Cuando un usuario se logre exitosamente:
-// LoginLogger.info("User logged in successfully", { username: "theghost1980", ip: "192.168.1.100" });
-
-// Cuando haya un intento de login fallido:
-// LoginLogger.warn("Failed login attempt", { username_attempted: "unknown_user", ip: "203.0.113.5" });

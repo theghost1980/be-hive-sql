@@ -13,4 +13,16 @@ para tener opciones versatiles a la hora de obtener datos, cuentas y/o transacci
 - Permite verificar al usuario y otorgarle un JWT token valido por 2H para que pueda consultar cuentas o hacer consultas SQL.
 - Utiliza [mssql](https://www.npmjs.com/package/mssql) para el manejo de las consultas SQL desde nodejs.
 
+## Lentitud al revisar bloques en una blockchain?
+
+Es algo comun en el ambito del desarrollo en [web3](https://es.wikipedia.org/wiki/Web3) que para leer los bloques de datos de una blockchain, el proceso pueda ser lento y un tanto tedioso. Es por eso que existen soluciones como [HiveSQL](https://hivesql.io/) que permite accesar a datos de la blockchain de HIVE, de manera mas eficiente y rapida.
+
+//TODO below
+
+## Ejemplo de logica de consulta en este servidor:
+
+1. Hacemos inicio de sesión usando la extension Keychain. Debemos descargarla y configurarla. Mas info [aca](https://hive-keychain.com/).
+2. El inicio de sesión consta de 2 pasos:
+   2.1 Hacemos la peticion del challenge a firmar en la ruta:
+
 En progreso Docs + CI/CD

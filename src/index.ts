@@ -19,8 +19,8 @@ export const lastTestedRPCNode = {
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
-const periodicCheckIntervalMs = 1 * 60 * 1000; // Define el intervalo (ej: 5 minutos = 5 * 60 * 1000)
+const port = process.env.PORT || 5000;
+const periodicCheckIntervalMs = 5 * 60 * 1000; // Define el intervalo (ej: 5 minutos = 5 * 60 * 1000)
 let periodicCheckTimer: NodeJS.Timeout | null = null;
 
 app.use(cors());

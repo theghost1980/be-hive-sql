@@ -1,15 +1,16 @@
 import { Router } from "express";
+import { requireUserToken } from "../middleware/middleware";
 import { accountsQueries } from "../queries/accounts/account.queries";
 import { executeQuery, testConnection } from "../utils/db";
 
 const router = Router();
 
-router.get("/testCon", async (req, res) => {
+router.get("/testCon", requireUserToken, async (req, res) => {
   const tests = await testConnection();
   res.status(200).json({ tests });
 });
 
-router.get("/new-24-h", async (req, res) => {
+router.get("/new-24-h", requireUserToken, async (req, res) => {
   const rawLimit = req.query.limit;
   let limitQueryTo: number;
 
@@ -53,7 +54,7 @@ router.get("/new-24-h", async (req, res) => {
   }
 });
 
-router.get("/fish-new-limit", async (req, res) => {
+router.get("/fish-new-limit", requireUserToken, async (req, res) => {
   const rawLimit = req.query.limit;
   let limitQueryTo: number;
 
@@ -94,7 +95,7 @@ router.get("/fish-new-limit", async (req, res) => {
   }
 });
 
-router.get("/fish-new", async (req, res) => {
+router.get("/fish-new", requireUserToken, async (req, res) => {
   try {
     const resultado = await executeQuery(
       accountsQueries.get_new_30_days_min_1_post_avg_low_votes
@@ -110,7 +111,7 @@ router.get("/fish-new", async (req, res) => {
   }
 });
 
-router.get("/recent-accounts", async (req, res) => {
+router.get("/recent-accounts", requireUserToken, async (req, res) => {
   try {
     const resultado = await executeQuery(
       accountsQueries.get_new_users_past_month_with_low_votes

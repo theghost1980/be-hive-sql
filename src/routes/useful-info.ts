@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const router = Router();
 
-router.get("/server", async (req, res) => {
+router.get("/info", async (req, res) => {
   const server_data_info = {
     nodes_rpc_tests: {
       made_by: "nectarflower_js module",

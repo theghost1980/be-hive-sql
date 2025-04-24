@@ -13,6 +13,8 @@ const client = new Client(
   clientOptions
 );
 
+export const getDHiveClient = () => client;
+
 /**
  * Fetches and parses the JSON metadata for a given Hive account.
  * @param accountName The name of the Hive account.

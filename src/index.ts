@@ -2,6 +2,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import accountsRouter from "./routes/accounts";
+import { AppLogger } from "./utils/logger.util";
 
 //TODO improve sec + keychain login same as index, protect all routes. Upload to VPS and test
 
@@ -18,4 +19,5 @@ app.use("/api", accountsRouter);
 
 app.listen(port, () => {
   console.log(`Servidor escuchando en http://localhost:${port}`);
+  AppLogger.info(`Server Up using ${port}`);
 });

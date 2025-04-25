@@ -15,6 +15,20 @@ router.get("/info", async (req, res) => {
       info: "https://hivesql.io/",
       lib_nodejs_sql_used: "mssql",
     },
+    local_db: {
+      SQL_lite: "SQLite Client for Node.js Apps",
+      npm_url: "https://www.npmjs.com/package/sqlite",
+    },
+    ai_helpers: {
+      chatGPT: {
+        used_in: ["Refactoring code", "structure designs", "code corrections"],
+        more_info_url: "https://chatgpt.com/",
+      },
+      gemini_v_2_5_flash_experimental: {
+        used_in: ["Refactoring code", "structure designs", "code corrections"],
+        more_info_url: "https://gemini.google.com/",
+      },
+    },
   };
   res.status(200).json({ server_data_info });
 });

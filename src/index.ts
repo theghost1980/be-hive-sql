@@ -1,8 +1,12 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import { initDB } from "./db/localdb";
 import accountsRouter from "./routes/accounts";
+import adminRouter from "./routes/admin";
 import authRouter from "./routes/auth";
+import onboardingRouter from "./routes/onboarding";
+import queryRouter from "./routes/query";
 import usefulRouter from "./routes/useful-info";
 import { AppLogger } from "./utils/logger.util";
 import { checkRPCHive } from "./utils/nectatflower.util";
@@ -35,8 +39,13 @@ app.get("/", (req, res) => {
   res.send("¡Bienvenido a la API de tu backend Hive/HSBI!");
 });
 app.use("/api", accountsRouter); //protected
+app.use("/crud", onboardingRouter); //protected
+app.use("/query", queryRouter); //protected
 app.use("/public", usefulRouter); //free use public
 app.use("/auth", authRouter);
+
+//TODO below protect admin, signing in the auth router to role: 'admin' when found in /data/admin_data.ts
+app.use("/admin", adminRouter);
 
 async function runCheckAndReschedule() {
   AppLogger.info(`[${new Date().toISOString()}] Running periodic RPC check...`);
@@ -81,13 +90,22 @@ process.on("SIGINT", () => {
 });
 
 checkRPCHive()
-  .then(() =>
+  .then(() => {
+    initDB()
+      .then(() => {
+        AppLogger.info("Local DB Inicializada con Exito!");
+      })
+      .catch((e) =>
+        AppLogger.error(
+          `Error al intentar inicializar la BD local. ${e.message}`
+        )
+      );
     app.listen(port, () => {
       console.log(`Servidor escuchando en http://localhost:${port}`);
       AppLogger.info(`Server Up using ${port}`);
       scheduleFirstPeriodicCheck();
-    })
-  )
+    });
+  })
   .catch((e: any) => {
     AppLogger.error(
       "Servidor Desactivado por seguridad. Por favor revise chequeo inicial de nodos RPC",

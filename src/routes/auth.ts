@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import { secret } from "..";
+import { insertLog, LogEntry } from "../db/localdb";
 import { getDHiveClient } from "../hive/DHive.api";
 import { AuthUtils } from "../utils/auth.utils";
 import { AppLogger } from "../utils/logger.util";
@@ -97,12 +98,23 @@ authRouter.post("/verify", async (req: Request, res: Response) => {
     // Autenticación Exitosa
     delete pendingChallenges[username]; // Eliminar challenge usado
 
-    // Emitir JWT
     if (secret) {
       const token = jwt.sign({ username, role: "user" }, secret, {
         expiresIn: "1h",
       });
-      return res.json({ success: true, token });
+      res.json({ success: true, token });
+
+      try {
+        await insertLog({
+          username,
+          action: "login",
+          timestamp: Date.now(),
+        } as LogEntry);
+      } catch (e: any) {
+        console.error("Error al registrar el inicio de sesión:", e);
+        AppLogger.error(`Error al incluir log. ${e.message}`);
+      }
+      return;
     } else {
       return res.json({
         success: true,

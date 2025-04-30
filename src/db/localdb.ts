@@ -122,6 +122,12 @@ export async function getOnboarded(
   );
 }
 
+export async function getAllOnboardings(): Promise<OnboardingEntry[]> {
+  return db.all<OnboardingEntry[]>(
+    "SELECT * FROM onboardings ORDER BY timestamp DESC"
+  );
+}
+
 export async function getOnboardingsByOnboarder(
   onboarder: string
 ): Promise<OnboardingEntry[]> {

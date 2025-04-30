@@ -1,5 +1,9 @@
-import { Router } from "express";
-import { getOnboarded, getOnboardingsByOnboarder } from "../db/localdb";
+import { Request, Response, Router } from "express";
+import {
+  getAllOnboardings,
+  getOnboarded,
+  getOnboardingsByOnboarder,
+} from "../db/localdb";
 import { requireUserToken } from "../middleware/middleware";
 import { AppLogger } from "../utils/logger.util";
 
@@ -33,12 +37,26 @@ queryRouter.get(
       return res.status(400).json("Username is required here! String required");
     } else {
       try {
-        const logList = await getOnboarded(username);
-        return res.status(200).json(logList);
+        const onboardedList = await getOnboarded(username);
+        return res.status(200).json(onboardedList);
       } catch (error: any) {
         AppLogger.error(`Error leyendo onboardings en DB. ${error.message}`);
         return res.status(500).json("Error interno del servidor!");
       }
+    }
+  }
+);
+
+queryRouter.get(
+  "/getAll",
+  requireUserToken,
+  async (req: Request, res: Response) => {
+    try {
+      const onboardings = await getAllOnboardings();
+      res.status(200).json(onboardings);
+    } catch (error: any) {
+      console.error("Error getting all onboardings:", error);
+      res.status(500).json({ error: "Internal server error." });
     }
   }
 );

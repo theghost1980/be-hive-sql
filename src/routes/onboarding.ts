@@ -58,7 +58,11 @@ onboardingRouter.post(
 
       res
         .status(201)
-        .json({ message: "Onboarding registered successfully.", data });
+        .json({
+          success: true,
+          message: "Onboarding registered successfully.",
+          data,
+        });
     } catch (error: any) {
       console.error("Error al registrar onboarding:", error);
       res.status(500).json({ error: "Internal server error." });
@@ -115,12 +119,11 @@ onboardingRouter.put(
         action: `edited onboarding for: ${onboarded}, field: ${comment_permlink}`,
       } as LogEntry);
 
-      res
-        .status(200)
-        .json({
-          message: "Onboarding record updated successfully.",
-          comment_permlink,
-        });
+      res.status(200).json({
+        success: true,
+        message: "Onboarding record updated successfully.",
+        comment_permlink,
+      });
     } catch (error: any) {
       console.error("Error updating onboarding record:", error);
       res.status(500).json({ error: "Internal server error." });
